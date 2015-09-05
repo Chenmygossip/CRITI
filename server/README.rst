@@ -35,6 +35,8 @@ As always, have fun!
 Routes
 ------
 
+.. line-block::
+
     import                       /import                                      GET,POST
     export                       /termbases/{base_id}/export                  GET
     termbase_collection          /termbases                                   GET,POST
