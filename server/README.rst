@@ -35,14 +35,14 @@ As always, have fun!
 Routes
 ------
 
-import                       /import                                      GET,POST
-export                       /termbases/{base_id}/export                  GET
-termbase_collection          /termbases                                   GET,POST
-termbase                     /termbases/{base_id}                         DELETE,GET,PUT
-entry_collection             /termbases/{base_id}/entries                 GET,POST
-entry                        /termbases/{base_id}/entries/{entry_id}      DELETE,GET,PUT
-person_collection            /termbases/{base_id}/people                  GET,POST
-person                       /termbases/{base_id}/people/{person_id}      DELETE,GET,PUT
+    import                       /import                                      GET,POST
+    export                       /termbases/{base_id}/export                  GET
+    termbase_collection          /termbases                                   GET,POST
+    termbase                     /termbases/{base_id}                         DELETE,GET,PUT
+    entry_collection             /termbases/{base_id}/entries                 GET,POST
+    entry                        /termbases/{base_id}/entries/{entry_id}      DELETE,GET,PUT
+    person_collection            /termbases/{base_id}/people                  GET,POST
+    person                       /termbases/{base_id}/people/{person_id}      DELETE,GET,PUT
 
 
 
