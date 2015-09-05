@@ -1,0 +1,132 @@
+{%- macro reference(internal, external) %}
+  {%- for ref in internal %}
+  <ref type="crossReference" target="{{ ref['target'] }}">{{ ref['content'] }}</ref>
+  {% endfor -%}
+  {%- for xref in external %}
+  <xref type="externalCrossReference" target="{{ xref['target'] }}">{{ xref['content'] }}</xref>
+  {% endfor -%}
+{% endmacro -%}
+{%- macro definition(definitions) %}
+  {%- for defin in definitions %}
+    {%- if defin.get('source') %}
+  <descripGrp>
+    <descrip type="definition">{{ defin['content'] }}</descrip>
+    <admin type="source">{{ defin['source'] }}</admin>
+  </descripGrp>
+    {% else %}
+  <descrip type="definition">{{ defin['content'] }}</descrip>
+    {%- endif -%}
+  {% endfor -%}
+{% endmacro -%}
+{%- macro context(contexts) %}
+  {%- for con in contexts %}
+    {%- if con.get('source') %}
+  <descripGrp>
+    <descrip type="context">{{ con['content'] }}</descrip>
+    <admin type="source">{{ con['source'] }}</admin>
+  </descripGrp>
+    {% else %}
+  <descrip type="context">{{ con['content'] }}</descrip>
+    {%- endif -%}
+  {% endfor -%}
+{% endmacro -%}
+{%- macro transaction(transactions) %}
+  {%- for transac in transactions %}
+  <transacGrp>
+    <transac type="transactionType">{{ transac['type'] }}</transac>
+    {%- if 'person' in transac %}
+    <transacNote type="responsibility" target="{{ transac['target'] }}">{{ transac['person'] }}</transacNote>
+    {%- endif -%}
+    {%- if 'date' in transac %}
+    <date>{{ transac['date'] }}</date>
+    {%- endif %}
+  </transacGrp>
+  {% endfor -%}
+{% endmacro -%}
+{%- macro term_note(term, key, type) %}
+  {%- if key in term %}
+  <termNote type="{{ type }}">{{ term[key] }}</termNote>
+  {%- endif -%}
+{% endmacro -%}
+<?xml version='1.0'?>
+<!DOCTYPE martif SYSTEM "TBXBasiccoreStructV02.dtd">
+<!-- Created by the CRITI terminology management system. -->
+<martif type="TBX-Basic" xml:lang="{{ working_language }}">
+  <martifHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>CRITI TBX-Basic File</title>
+      </titleStmt>
+      <sourceDesc>
+        <p>CRITI system tbx export.</p>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <p type="XCSURI">http://www.lisa.org/fileadmin/standards/tbx_basic/TBXBasicXCSV02.xcs</p>
+    </encodingDesc>
+  </martifHeader>
+  <text>
+    <body>
+      {%- for entry in entries %}
+      <termEntry id="{{ entry['id'] }}">
+        {%- if 'subject_field' in entry %}
+        <descrip type="subjectField">{{ entry['subject_field'] }}</descrip>
+        {%- endif -%}
+        {%- for image in entry.get('images', []) %}
+        <xref type="xGraphic" target="{{ image['target'] }}">{{ image['content'] }}</xref>
+        {% endfor -%}
+        {%- for note in entry.get('notes', []) %}
+        <note>{{ note }}</note>
+        {% endfor -%}
+        {{- reference(entry.get('references', []), entry.get('external_references', []))|indent }}
+        {{- definition(entry.get('definitions', []))|indent }}
+        {{- transaction(entry.get('transactions', []))|indent }}
+        {%- for lang in entry['languages'] %}
+        <langSet xml:lang="{{ lang['code'] }}">
+          {{- definition(lang.get('definitions', []))|indent|indent }}
+          {{- transaction(lang.get('transactions', []))|indent|indent }}
+          {%- for term in lang['terms'] %}
+          <tig>
+            <term>{{ term['term'] }}</term>
+            {{- term_note(term, 'type', 'termType')|indent|indent|indent(2) }}
+            {{- term_note(term, 'pos', 'partOfSpeech')|indent|indent|indent(2) }}
+            {{- term_note(term, 'gender', 'grammaticalGender')|indent|indent|indent(2) }}
+            {{- term_note(term, 'status', 'administrativeStatus')|indent|indent|indent(2)  }}
+            {{- term_note(term, 'geo', 'geographicalUsage')|indent|indent|indent(2) }}
+            {{- term_note(term, 'location', 'termLocation')|indent|indent|indent(2) }}
+            {%- if 'source' in term %}
+            <admin type="source">{{ term['source'] }}</admin>
+            {%- endif -%}
+            {%- for customer in term.get('customers', []) %}
+            <admin type="customerSubset">{{ customer }}</admin>
+            {% endfor -%}
+            {%- for project in term.get('projects', []) %}
+            <admin type="projectSubset">{{ project }}</admin>
+            {% endfor -%}
+            {{- context(term.get('contexts', []))|indent|indent|indent(2) }}
+            {{- reference(term.get('references', []), term.get('external_references', []))|indent|indent|indent(2) }}
+            {{- transaction(term.get('transactions', []))|indent|indent|indent(2) }}
+          </tig>
+          {%- endfor %}
+        </langSet>
+        {%- endfor %}
+      </termEntry>
+      {%- endfor %}
+    </body>
+    {%- if people %}
+    <back>
+      <refObjectList type="respPerson">
+        {%- for person in people %}
+        <refObject id="{{ person['id'] }}">
+          {%- for key, value in person.items() %}
+            {%- if key != 'id' %}
+          <item type="{{ key }}">{{ value }}</item>
+            {%- endif -%}
+          {%- endfor %}
+        </refObject>
+        {%- endfor %}
+      </refObjectList>
+    </back>
+    {%- endif -%}
+  </text>
+</martif>
