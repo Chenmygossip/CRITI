@@ -6,8 +6,9 @@ jsonpointer==1.9
 jsonschema==2.5.1
 log-colorizer==1.6
 lxml==3.4.4
-psycopg2cffi==2.7.2
+psycopg2==2.6.1
 pyramid==1.5.7
 pyramid-debugtoolbar==2.4.1
 pyramid-jinja2==2.5
 uWSGI==2.0.11.1
+
