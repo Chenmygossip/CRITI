@@ -121,6 +121,7 @@ else if (!empty($_POST['deleteEntry']))
 		<form action='' enctype="multipart/form-data" method='post'>
 			<div id='divEditPeople'>
 				<input type='submit' formaction='editPeople.php' name='editPeople' value='Edit People'/>
+				<input type='submit' formaction='addPeople.php' name='editPeople' value='Add People'/>
 			</div>
 			<div id='divTermbaseInfo'>
 				<input type='hidden' id='baseId' name='baseId' value='<?php echo $baseId; ?>' required />

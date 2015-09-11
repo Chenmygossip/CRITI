@@ -143,7 +143,7 @@ if (!empty($_POST))
 				if ($output == "") $output = "Result was Empty String";
 				
 				$o = json_decode($output);
-				if (!empty($o[0]->id))
+				if (!empty($o[0]->id) && !empty($_POST['btnListTermbases']))
 				{
 					foreach ($o as $t)
 					{

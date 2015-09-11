@@ -9,7 +9,7 @@ $baseId = (!empty($_POST['baseId']))? $_POST['baseId'] : $_GET['id'];
 
 $termbase = new termbase();
 $termbase->loadFromId($baseId);
-echo print_r($termbase, true);
+
 $people = json_decode($termbase->getPeople());
 $result = "No action yet taken.";
 
@@ -19,7 +19,7 @@ if (!empty($_POST['submit']))
 	$person->createFromValues($_POST['id'],$_POST['email'],$_POST['fn'],$_POST['role']);
 	$result = $termbase->updatePerson($person);
 
-	header("Location: editPeople.php?id=".$baseId);
+	$people = json_decode($termbase->getPeople());//refresh people
 }
 else if (!empty($_POST['delete']))
 {
@@ -27,7 +27,7 @@ else if (!empty($_POST['delete']))
 	$person->createFromValues($_POST['id'],$_POST['email'],$_POST['fn'],$_POST['role']);
 	$result = $termbase->deletePerson($person);
 
-	header("Location: editPeople.php?id=".$baseId);
+	$people = json_decode($termbase->getPeople());//refresh people
 }
 
 ?>
@@ -38,8 +38,12 @@ else if (!empty($_POST['delete']))
 		<title>Edit People</title>
 	</head>
 	<body>
-		
-		
+		<a href="index.php">Return Home</a>
+		<a href="currentTermbase.php?id=<?php echo $termbase->baseId; ?>">Return to Termbase</a>
+			<form action='' method='post' enctype='multipart/form-data'>
+				<input type='hidden' value='<?php echo $baseId ?>' name='baseId' />
+				<input type='submit' formaction='addPeople.php' name='addPeople' value='Add People'/>
+			</form>
 			<?php
 			
 				foreach ($people as $p)

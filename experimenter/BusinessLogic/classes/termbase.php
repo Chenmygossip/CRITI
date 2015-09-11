@@ -130,13 +130,13 @@ class termbase
 		$peoplePath = $this->path."/people";
 		
 		$data = array(
-			'id'=> $person->id,
+			'id' => '', //just gets overwritten
 			'email'=> $person->email,
 			'fn'=> $person->fn,
 			'role'=> $person->role
 		);
 
-		$result = $this->apiCaller->post($peoplePath, $data);
+		$result = $this->apiCaller->post($peoplePath, json_encode($data));
 		
 		return $result;
 	}
