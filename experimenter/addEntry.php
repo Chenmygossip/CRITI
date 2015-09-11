@@ -37,7 +37,7 @@ if (!empty($_POST['createNew']))
 		<p>Adding Entry to Termbase: <?php echo $termbase->baseId; ?></p>
 		<p>Note, this API exerciser only asks for the minimum for validation in order to demonstrate a simple Entry creation.</p>
 		<p>The exception is that it asks for two language sets for testing.</p>
-		<p><?php echo $result; ?></p>
+		
 		<form action='' enctype='multipart/form-data' method='post'>
 			<div>
 				<label for='entryId'>Entry ID:</label>
@@ -72,5 +72,8 @@ if (!empty($_POST['createNew']))
 			<input type='hidden' id='baseId' name='baseId' value='<?php echo $termbase->baseId; ?>' required />
 			<input type='submit' name='createNew' value='Create Entry' />
 		</form>
+		<div>
+			<p><?php echo $result; ?></p>
+		</div>
 	</body>
 </html>

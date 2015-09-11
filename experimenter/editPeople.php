@@ -41,7 +41,6 @@ else if (!empty($_POST['delete']))
 		
 		
 			<?php
-				echo $result;
 			
 				foreach ($people as $p)
 				{
@@ -66,6 +65,11 @@ else if (!empty($_POST['delete']))
 				}
 			
 			?>
-		
+			
+		<div>
+			<p>
+				<?php echo $result; ?>
+			</p>
+		</div>
 	</body>
 </html>

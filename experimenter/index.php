@@ -4,9 +4,6 @@ $output = "nothing yet";
 
 if (!empty($_POST))
 {
-	echo "POSTED<br>";
-	
-	
 	if (!empty($_FILES['tbxFile']))
 	{
 		
@@ -117,6 +114,7 @@ if (!empty($_POST))
 				<input type='submit' formaction='download.php' id='exportTermbase' name='exportTermbase' value='Export Termbase' />
 				<input type='submit' id='showPeople' name='showPeople' value='Show People'/>
 				<input type='submit' id='deleteTermbase' name='deleteTermbase' value='Delete Termbase' />
+				<input type='submit' id='newTermbase' formnovalidate='formnovalidate' formaction='addTermbase.php' value='Add New Termbase' />
 			</form>
 			<form action='' enctype="multipart/form-data" method='post'>
 				<label for='searchTerms'>Search for entries containing a term:</label>
@@ -140,10 +138,30 @@ if (!empty($_POST))
 			</form>
 		</div>
 		<div id="output">
+			<form action='' enctype="multipart/form-data" method='post'>
 			<?php
 				if ($output == "") $output = "Result was Empty String";
-				echo $output;
+				
+				$o = json_decode($output);
+				if (!empty($o[0]->id))
+				{
+					foreach ($o as $t)
+					{
+						echo "<br>
+						<p>Termbase:</p>
+						<div><span>Id:</span>".$t->id."</div>
+						<div><span>Working Language:</span>".$t->working_language."</div>
+						<div><span>Name:</span>".$t->name."</div>
+						<input type='submit' formaction='currentTermbase.php?id=".$t->id."' formnovalidate='formnovalidate' value='Edit this Termbase' />
+						<br>";
+					}
+				}
+				else
+				{
+					echo $output;
+				}
 			?>
+			</form>
 		</div>
 	</body>
 </html>

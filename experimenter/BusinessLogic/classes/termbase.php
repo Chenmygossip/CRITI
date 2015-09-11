@@ -28,15 +28,15 @@ class termbase
 		$this->name = $result->name;
 	}
 	
-	public function createFromValues($working_language, $baseId, $name) //post
+	public function createFromValues($working_language, $name) //post
 	{
 		$this->working_language = $working_language;
-		$this->baseId = $baseId;
+
 		$this->name = $name;
 		$this->path = SERVER."/termbases";
 
 		$post = json_encode(array(
-			'id'=>$this->baseId,
+
 			'working_language'=>$this->working_language,
 			'name'=>$this->name
 		));

@@ -117,11 +117,7 @@ else if (!empty($_POST['deleteEntry']))
 	</head>
 	<body>
 		<a href="index.php">Return Home</a>
-		<?php
 		
-			echo $result;
-		
-		?>
 		<form action='' enctype="multipart/form-data" method='post'>
 			<div id='divEditPeople'>
 				<input type='submit' formaction='editPeople.php' name='editPeople' value='Edit People'/>
@@ -170,5 +166,15 @@ else if (!empty($_POST['deleteEntry']))
 				
 			</div>
 		</form>
+		
+		<div>
+			<p>
+				<?php
+		
+					echo $result;
+				
+				?>
+			</p>
+		</div>
 	</body>
 </html>
