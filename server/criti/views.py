@@ -125,10 +125,10 @@ class ExternalView(View):
     @view_config(route_name='import', request_method='POST')
     def import_tbx(self):
         tbx_file = self.request.POST.get('file')
-        if tbx_file is None:
+        if tbx_file is None or tbx_file == '':
             raise HTTPBadRequest("No TBX file uploaded.")
         name = self.request.POST.get('name')
-        if name is None:
+        if name is None or name == '':
             raise HTTPBadRequest("No termbase name provided.")
 
         self.request.log.info("Validating TBX for {} in {}.".format(name, tbx_file.filename))

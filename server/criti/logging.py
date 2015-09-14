@@ -10,7 +10,7 @@ from pyramid_debugtoolbar.panels.logger import handler as pdtb_log_handler
 class ColoredLogHandler(ColorizedStderrHandler):
 
     def emit(self, record):
-        super().emit(record)
+        super(ColoredLogHandler, self).emit(record)
         converter = LoggingHandler()
         pdtb_log_handler.emit(converter.convert_record(record))
 
