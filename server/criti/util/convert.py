@@ -92,7 +92,9 @@ def parse_term_level(tig):
     _update_if_not_none(tig.find(type='grammaticalGender'), term, 'gender')
     _update_if_not_none(tig.find(type='administrativeStatus'), term, 'status')
     _update_if_not_none(tig.find(type='geographicalUsage'), term, 'geo')
-    _update_if_not_none(tig.find(type='termLocation'), term, 'location')
+
+    for location in tig(type='termLocation'):
+        term.setdefault('locations', []).append(WHITE.sub(' ', location.string).strip())
 
     for customer in tig(type='customerSubset'):
         term.setdefault('customers', []).append(WHITE.sub(' ', customer.string).strip())

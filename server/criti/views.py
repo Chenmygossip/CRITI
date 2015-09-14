@@ -144,7 +144,7 @@ class ExternalView(View):
         parsed = parse(tbx)
 
         self.request.log.info("Updating database with new termbase {}".format(name))
-        key, base_id = self.db.execute(TERMBASE_CREATE, name=name, working_language=parsed['working_language']).fetchone();
+        key, base_id = self.db.execute(TERMBASE_CREATE, name=name, working_language=parsed['working_language']).fetchone()
 
         for person in parsed['people']:
             self.request.log.debug("Creating person: {}".format(person))
@@ -228,7 +228,6 @@ class EntryView(View):
 
     @view_config(route_name='entry_collection', request_method='GET')
     def filter(self):
-        
         # for now we just return them all
         return list(
             dict(entry.data)

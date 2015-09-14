@@ -1,4 +1,4 @@
-#  from logging import config as logging_config
+from logging import config as logging_config
 
 import logbook
 import sqlalchemy as sa
@@ -40,17 +40,21 @@ def setup_routing(config):
 
 def main(global_config, **settings):
 
-    # This loads the configuration for asyncio, gunicorn
+    # This loads the configuration for gunicorn
     # and other builtin loggers.
-    #  logging_config.fileConfig(
-        #  settings['logging.config'],
-        #  disable_existing_loggers=False
-    #  )
+    logging_config.fileConfig(
+        settings['logging.config'],
+        disable_existing_loggers=False
+    )
 
     config = Configurator(settings=settings)
 
     # Database
-    engine = sa.create_engine(settings['sqlalchemy.url'])
+    # 100 connections possible, 50 of them are persistent
+    engine = sa.create_engine(
+        settings['sqlalchemy.url'],
+        pool_size=50,
+        max_overflow=50)
 
     def add_db(request):
         connection = engine.connect()
@@ -62,6 +66,8 @@ def main(global_config, **settings):
                 transaction.rollback()
             else:
                 transaction.commit()
+            # return conneciton to pool
+            connection.close()
 
         return connection
 

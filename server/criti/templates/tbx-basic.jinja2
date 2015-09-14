@@ -93,7 +93,9 @@
             {{- term_note(term, 'gender', 'grammaticalGender')|indent|indent|indent(2) }}
             {{- term_note(term, 'status', 'administrativeStatus')|indent|indent|indent(2)  }}
             {{- term_note(term, 'geo', 'geographicalUsage')|indent|indent|indent(2) }}
-            {{- term_note(term, 'location', 'termLocation')|indent|indent|indent(2) }}
+            {%- for location in term.get('locations', []) %}
+            <termNote type="termLocation">{{ location }}</termNote>
+            {% endfor -%}
             {%- if 'source' in term %}
             <admin type="source">{{ term['source'] }}</admin>
             {%- endif -%}
